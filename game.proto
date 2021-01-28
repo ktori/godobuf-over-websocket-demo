@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+// Название пакета который будет сгенерирован
+option java_package = "me.ktori.game.proto";
+// Название класса - в нём будут находиться классы сообщений
+option java_outer_classname = "GameProto";
+
+message ClSetName {
+  string name = 1;
+}
+
+message ClSendChatMessage {
+  string text = 1;
+}
+
+// Объединение всех сообщений, отсылаемых клиентом
+message ClMessage {
+  oneof data {
+    ClSetName set_name = 1;
+    ClSendChatMessage send_chat_message = 2;
+  }
+}
+
+// Отсылается сервером - объединение всех возможных результатов выполнения команды от клиента
+message ClMessageResult {
+  oneof result {
+    ClSetNameResult set_name = 1;
+  }
+}
+
+message ClSetNameResult {
+  bool success = 1;
+}
+
+// Отсылается клиенту один раз при соединении
+message SvConnected {
+  int32 id = 1;
+  string name = 2;
+}
+
+message SvClientConnected {
+  int32 id = 1;
+  string name = 2;
+}
+
+message SvClientDisconnected {
+  int32 id = 1;
+}
+
+message SvNameChanged {
+  int32 id = 1;
+  string name = 2;
+}
+
+message SvChatMessage {
+  int32 from = 1;
+  string text = 2;
+}
+
+// Объединение всех сообщений которые сервер посылает клиенту
+message SvMessage {
+  oneof data {
+    ClMessageResult result = 1;
+    SvConnected connected = 2;
+    SvClientConnected client_connected = 3;
+    SvClientDisconnected client_disconnected = 4;
+    SvNameChanged name_changed = 5;
+    SvChatMessage chat_message = 6;
+  }
+}

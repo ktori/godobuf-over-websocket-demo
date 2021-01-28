@@ -1,0 +1,7 @@
+server/.idea
+godot/.import
+godot/.mono
+server/build
+server/server/build
+server/proto/build
+.gradle

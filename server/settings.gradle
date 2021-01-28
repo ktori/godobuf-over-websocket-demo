@@ -1,0 +1,4 @@
+rootProject.name = 'proto-server'
+
+include('server')
+include('proto')
